@@ -1,0 +1,819 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// --------------------------------------------------------
+// ENUMS
+// --------------------------------------------------------
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  QUESTION_EDITOR
+  QUESTION_REVIEWER
+  SUPPORT
+  USER
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING
+}
+
+enum DifficultyLevel {
+  EASY
+  MEDIUM
+  HARD
+  ANY
+}
+
+enum QuestionType {
+  SINGLE_MCQ
+  MULTIPLE_MCQ
+  TRUE_FALSE
+}
+
+enum QuestionSource {
+  PREVIOUS_YEAR
+  ADMIN_CREATED
+  AI_GENERATED
+  USER_SUBMITTED
+}
+
+enum QuestionStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  PUBLISHED
+  REJECTED
+  ARCHIVED
+}
+
+enum AttemptStatus {
+  CREATED
+  IN_PROGRESS
+  SUBMITTED
+  AUTO_SUBMITTED
+  EXPIRED
+  ABANDONED
+}
+
+enum SubscriptionPlanCode {
+  FREE
+  MONTHLY
+  YEARLY
+  LIFETIME
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  BKASH
+  NAGAD
+  ROCKET
+  SSLCOMMERZ
+  MANUAL
+  DEMO
+}
+
+enum ReportReason {
+  WRONG_ANSWER
+  INCORRECT_QUESTION
+  TYPO
+  DUPLICATE
+  OUTDATED
+  OTHER
+}
+
+enum OptionKey {
+  A
+  B
+  C
+  D
+}
+
+// --------------------------------------------------------
+// USERS & PROFILES
+// --------------------------------------------------------
+
+enum PortalGroup {
+  UNIVERSITY
+  JOBS
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  supabaseId    String?        @unique
+  password      String?
+  name          String
+  avatarUrl     String?
+  phone         String?
+  fcmToken      String?
+  // Per-user push opt-out. Defaults true so every existing account keeps
+  // getting pushed on backfill; broadcasts and single-user sends both check
+  // this before dispatching (the in-app notification record is still
+  // created either way — this only mutes the push, not the notification
+  // center itself).
+  pushNotificationsEnabled Boolean @default(true)
+  role          UserRole       @default(USER)
+  status        UserStatus     @default(ACTIVE)
+
+  // Time-limited console access. A temporary account is issued with a
+  // generated email + password, works only until `accessExpiresAt`, and can be
+  // revoked at any time. Permanent accounts leave all of this null/false.
+  isTemporary     Boolean   @default(false)
+  accessExpiresAt DateTime?
+  accessNote      String?
+  issuedById      String?
+  lastLoginAt     DateTime?
+
+  // Email verification (self-registered students only). Defaults to true so
+  // the column backfills as verified for every account that already existed
+  // when this was added — admin, temporary-access, and Google sign-ins (which
+  // Google has already verified) — and `register()` is the only place that
+  // explicitly sets it false.
+  emailVerified        Boolean   @default(true)
+  emailVerifyCodeHash  String?
+  emailVerifyExpires   DateTime?
+  emailVerifyAttempts  Int       @default(0)
+  emailVerifySentAt    DateTime?
+
+  // Same shape as the email-verify fields above, for "forgot password".
+  passwordResetCodeHash String?
+  passwordResetExpires  DateTime?
+  passwordResetAttempts Int       @default(0)
+  passwordResetSentAt   DateTime?
+
+  // Every user gets their own shareable code; `referredByCode` is what they
+  // typed in at signup (kept even if that code is later reassigned, so the
+  // relationship stays legible), and `referredById` is the resolved user it
+  // pointed to at the time — null if the code was blank, unknown, or theirs.
+  referralCode   String? @unique
+  referredByCode String?
+  referredById   String?
+  referredBy     User?   @relation("Referrals", fields: [referredById], references: [id], onDelete: SetNull)
+  referrals      User[]  @relation("Referrals")
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  profile       UserProfile?
+  attempts      Attempt[]
+  bookmarks     Bookmark[]
+  mistakes      UserMistake[]
+  subscriptions Subscription[]
+  payments      Payment[]
+  reports       QuestionReport[]
+  auditLogs     AuditLog[]
+  userNotifications UserNotification[]
+  customExams   Exam[]
+  referralRewardsGiven   Referral[] @relation("ReferralsMade")
+  referralRewardReceived Referral?  @relation("ReferralReceived")
+
+  @@index([email])
+  @@index([role])
+  @@index([status])
+  @@index([isTemporary])
+  @@index([accessExpiresAt])
+  @@index([referredById])
+}
+
+// Created once — when the referred student's first payment is approved, not
+// at signup — so a reward can't be farmed by registering accounts that never
+// pay. referredId is unique: each student can trigger a reward at most once.
+model Referral {
+  id              String    @id @default(uuid())
+  referrerId      String
+  referrer        User      @relation("ReferralsMade", fields: [referrerId], references: [id], onDelete: Cascade)
+  referredId      String    @unique
+  referred        User      @relation("ReferralReceived", fields: [referredId], references: [id], onDelete: Cascade)
+  rewardDays      Int       @default(0)
+  rewardAppliedAt DateTime?
+  createdAt       DateTime  @default(now())
+
+  @@index([referrerId])
+}
+
+model UserProfile {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studyStreak     Int      @default(0)
+  lastActiveDate  DateTime?
+  totalExams      Int      @default(0)
+  completedExams  Int      @default(0)
+  questionsSolved Int      @default(0)
+  correctAnswers  Int      @default(0)
+  wrongAnswers    Int      @default(0)
+  accuracy        Float    @default(0)
+  averageScore    Float    @default(0)
+  bestScore       Float    @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// --------------------------------------------------------
+// TAXONOMY & EXAMS
+// --------------------------------------------------------
+
+model Category {
+  id          String   @id @default(uuid())
+  titleEn     String
+  titleBn     String
+  slug        String   @unique
+  icon        String?
+  description String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  exams       Exam[]
+
+  @@index([slug])
+  @@index([isActive])
+}
+
+model Exam {
+  id                    String         @id @default(uuid())
+  categoryId            String
+  category              Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  portalId              String?
+  portal                Portal?        @relation(fields: [portalId], references: [id], onDelete: SetNull)
+  unitId                String?
+  unit                  PortalUnit?    @relation(fields: [unitId], references: [id], onDelete: SetNull)
+  titleEn               String
+  titleBn               String
+  slug                  String         @unique
+  year                  Int?
+  durationMinutes       Int            @default(60)
+  totalQuestions        Int            @default(100)
+  marksPerQuestion      Float          @default(1.0)
+  negativeMark          Float          @default(0.25)
+  passMarks             Float?
+  isPremium             Boolean        @default(false)
+  isPublished           Boolean        @default(false)
+  shuffleQuestions      Boolean        @default(true)
+  shuffleOptions        Boolean        @default(true)
+  allowResume           Boolean        @default(true)
+  showResultImmediately Boolean        @default(true)
+  showExplanation       Boolean        @default(true)
+  // A student-generated practice test (via "Build Your Own Test"), as opposed
+  // to one authored by staff. Excluded from every public/admin exam listing —
+  // it exists solely for the student who created it to take once.
+  isCustom              Boolean        @default(false)
+  createdByUserId       String?
+  createdBy             User?          @relation(fields: [createdByUserId], references: [id], onDelete: SetNull)
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  blueprint             ExamBlueprint?
+  examSubjects          ExamSubject[]
+  questions             Question[]
+  attempts              Attempt[]
+
+  @@index([categoryId])
+  @@index([portalId])
+  @@index([unitId])
+  @@index([slug])
+  @@index([isPublished])
+  @@index([isPremium])
+}
+
+// A subject belongs to exactly one exam portal, and to one admission unit
+// inside it when that portal has units. Nothing is shared between exams: DU's
+// Bangla and BCS's Bangla are separate rows with separate chapters.
+model Subject {
+  id          String        @id @default(uuid())
+  portalId    String?
+  portal      Portal?       @relation(fields: [portalId], references: [id], onDelete: Cascade)
+  unitId      String?
+  unit        PortalUnit?   @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  // Mirrors unitId as a non-null value ('' when the portal has no units) so the
+  // unique constraint below actually bites — Postgres treats NULLs as distinct.
+  unitScope   String        @default("")
+  titleEn     String
+  titleBn     String
+  code        String
+  icon        String?
+  marks       Int?
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  topics      Topic[]
+  examSubjects ExamSubject[]
+  questions   Question[]
+  blueprintItems ExamBlueprintItem[]
+  resultSubjects AttemptResultSubject[]
+
+  @@unique([portalId, unitScope, code])
+  @@index([portalId])
+  @@index([unitId])
+  @@index([code])
+}
+
+model Topic {
+  id          String        @id @default(uuid())
+  subjectId   String
+  subject     Subject       @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  titleEn     String
+  titleBn     String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  questions   Question[]
+  blueprintItems ExamBlueprintItem[]
+
+  @@index([subjectId])
+}
+
+model ExamSubject {
+  id        String   @id @default(uuid())
+  examId    String
+  subjectId String
+  exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@unique([examId, subjectId])
+}
+
+// --------------------------------------------------------
+// BLUEPRINT SYSTEM
+// --------------------------------------------------------
+
+model ExamBlueprint {
+  id             String              @id @default(uuid())
+  examId         String              @unique
+  exam           Exam                @relation(fields: [examId], references: [id], onDelete: Cascade)
+  name           String
+  totalQuestions Int
+  totalMarks     Float
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  items          ExamBlueprintItem[]
+}
+
+model ExamBlueprintItem {
+  id             String          @id @default(uuid())
+  blueprintId    String
+  blueprint      ExamBlueprint   @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+  subjectId      String
+  subject        Subject         @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  topicId        String?
+  topic          Topic?          @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  questionCount  Int
+  marks          Float           @default(1.0)
+  negativeMarks  Float           @default(0.25)
+  difficulty     DifficultyLevel @default(ANY)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@index([blueprintId])
+  @@index([subjectId])
+}
+
+// --------------------------------------------------------
+// QUESTION BANK
+// --------------------------------------------------------
+
+model Question {
+  id             String          @id @default(uuid())
+  subjectId      String
+  subject        Subject         @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  topicId        String?
+  topic          Topic?          @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  examId         String?
+  exam           Exam?           @relation(fields: [examId], references: [id], onDelete: SetNull)
+  portalId       String?
+  portal         Portal?         @relation(fields: [portalId], references: [id], onDelete: Cascade)
+  unitId         String?
+  unit           PortalUnit?     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  year           Int?
+  questionEn     String          @db.Text
+  questionBn     String?         @db.Text
+  questionImage  String?
+  explanationEn  String?         @db.Text
+  explanationBn  String?         @db.Text
+  reference      String?
+  difficulty     DifficultyLevel @default(MEDIUM)
+  questionType   QuestionType    @default(SINGLE_MCQ)
+  sourceType     QuestionSource  @default(ADMIN_CREATED)
+  status         QuestionStatus  @default(DRAFT)
+  rejectionNotes String?
+  hash           String          @unique
+  timesAttempted Int             @default(0)
+  timesCorrect   Int             @default(0)
+  timesWrong     Int             @default(0)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  options        QuestionOption[]
+  attemptQuestions AttemptQuestion[]
+  bookmarks      Bookmark[]
+  mistakes       UserMistake[]
+  reports        QuestionReport[]
+
+  @@index([subjectId])
+  @@index([topicId])
+  @@index([examId])
+  @@index([portalId])
+  @@index([portalId, year])
+  @@index([unitId])
+  @@index([unitId, year])
+  @@index([status])
+  @@index([year])
+  @@index([difficulty])
+  @@index([sourceType])
+}
+
+model QuestionOption {
+  id         String    @id @default(uuid())
+  questionId String
+  question   Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  optionKey  OptionKey
+  textEn     String    @db.Text
+  textBn     String?   @db.Text
+  isCorrect  Boolean   @default(false)
+  image      String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  attemptQuestions AttemptQuestion[]
+
+  @@unique([questionId, optionKey])
+  @@index([questionId])
+}
+
+model QuestionReport {
+  id         String       @id @default(uuid())
+  questionId String
+  question   Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reason     ReportReason
+  notes      String?
+  isResolved Boolean      @default(false)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  @@index([questionId])
+  @@index([userId])
+}
+
+// --------------------------------------------------------
+// EXAM ATTEMPTS & ENGINE
+// --------------------------------------------------------
+
+model Attempt {
+  id                   String                 @id @default(uuid())
+  userId               String
+  user                 User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  examId               String
+  exam                 Exam                   @relation(fields: [examId], references: [id], onDelete: Cascade)
+  status               AttemptStatus          @default(IN_PROGRESS)
+  startedAt            DateTime               @default(now())
+  expiresAt            DateTime
+  completedAt          DateTime?
+  score                Float                  @default(0)
+  maxScore             Float                  @default(0)
+  percentage           Float                  @default(0)
+  totalQuestions       Int                    @default(0)
+  correctCount         Int                    @default(0)
+  wrongCount           Int                    @default(0)
+  unansweredCount      Int                    @default(0)
+  negativeMarksApplied Float                  @default(0)
+  accuracy             Float                  @default(0)
+  timeTakenSeconds     Int                    @default(0)
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+
+  attemptQuestions     AttemptQuestion[]
+  resultSubjects       AttemptResultSubject[]
+
+  @@index([userId])
+  @@index([examId])
+  @@index([status])
+}
+
+model AttemptQuestion {
+  id             String          @id @default(uuid())
+  attemptId      String
+  attempt        Attempt         @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId     String
+  question       Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  orderIndex     Int
+  userOptionId   String?
+  userOption     QuestionOption? @relation(fields: [userOptionId], references: [id], onDelete: SetNull)
+  isFlagged      Boolean         @default(false)
+  isCorrect      Boolean?
+  answeredAt     DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@unique([attemptId, orderIndex])
+  @@index([attemptId])
+  @@index([questionId])
+}
+
+model AttemptResultSubject {
+  id              String   @id @default(uuid())
+  attemptId       String
+  attempt         Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  subjectId       String
+  subject         Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  totalQuestions  Int
+  correctCount    Int
+  wrongCount      Int
+  unansweredCount Int
+  score           Float
+  accuracy        Float
+  createdAt       DateTime @default(now())
+
+  @@unique([attemptId, subjectId])
+  @@index([attemptId])
+  @@index([subjectId])
+}
+
+// --------------------------------------------------------
+// USER ENGAGEMENT: BOOKMARKS & MISTAKES
+// --------------------------------------------------------
+
+model Bookmark {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, questionId])
+  @@index([userId])
+}
+
+model UserMistake {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionId    String
+  question      Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  mistakeCount  Int      @default(1)
+  lastMistakeAt DateTime @default(now())
+
+  @@unique([userId, questionId])
+  @@index([userId])
+}
+
+// --------------------------------------------------------
+// SUBSCRIPTIONS & PAYMENTS
+// --------------------------------------------------------
+
+model SubscriptionPlan {
+  id               String               @id @default(uuid())
+  code             String               @unique
+  nameEn           String
+  nameBn           String
+  descriptionEn    String
+  descriptionBn    String
+  durationDays     Int
+  priceBdt         Float
+  discountPriceBdt Float?
+  features         String[]             @default([])
+  isActive         Boolean              @default(true)
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  subscriptions    Subscription[]
+  payments         Payment[]
+  scopes           PlanScope[]
+
+  @@index([code])
+}
+
+/// What a package unlocks. A row with no unit covers the whole exam portal
+/// (Medical & Dental sold as one), a row with a unit covers just that unit
+/// (DU ক priced separately from DU খ). A plan with no scope rows at all is a
+/// platform-wide package.
+model PlanScope {
+  id        String           @id @default(uuid())
+  planId    String
+  plan      SubscriptionPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  portalId  String
+  portal    Portal           @relation(fields: [portalId], references: [id], onDelete: Cascade)
+  unitId    String?
+  unit      PortalUnit?      @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  /// Postgres treats NULLs as distinct in a unique index, so the nullable unit
+  /// is mirrored here as '' to keep one row per plan+portal+unit.
+  unitScope String           @default("")
+  createdAt DateTime         @default(now())
+
+  @@unique([planId, portalId, unitScope])
+  @@index([portalId])
+  @@index([unitId])
+}
+
+model Subscription {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId    String
+  plan      SubscriptionPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  startsAt  DateTime         @default(now())
+  expiresAt DateTime
+  status    String           @default("ACTIVE")
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model Payment {
+  id            String           @id @default(uuid())
+  userId        String
+  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId        String
+  plan          SubscriptionPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  amount        Float
+  provider      PaymentProvider
+  transactionId String           @unique
+  status        PaymentStatus    @default(PENDING)
+  metadata      Json?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([transactionId])
+  @@index([status])
+}
+
+// --------------------------------------------------------
+// AUDIT & NOTIFICATIONS
+// --------------------------------------------------------
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([entity])
+}
+
+model Notification {
+  id        String             @id @default(uuid())
+  /// The default language copy, kept so the 22 existing notifications and any
+  /// admin who only writes one language still work.
+  title     String
+  body      String
+  /// Optional Bangla copy. The app shows it when the reader chose Bangla and
+  /// falls back to the fields above otherwise, so the API stays neutral.
+  titleBn   String?
+  bodyBn    String?
+  data      Json?
+  createdAt DateTime           @default(now())
+  users     UserNotification[]
+}
+
+model SystemSetting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserNotification {
+  id             String       @id @default(uuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notificationId String
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  isRead         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+
+  @@unique([userId, notificationId])
+  @@index([userId])
+}
+
+// --------------------------------------------------------
+// EXAM PORTALS (App Home Cards -> Admin "App Portals Hub")
+// Every question / exam / year / subject is hard-linked to a
+// Portal row, so content added under DU can never leak into
+// Medical & Dental or any other portal.
+// --------------------------------------------------------
+
+model Portal {
+  id        String      @id @default(uuid())
+  key       String      @unique
+  titleEn   String
+  titleBn   String
+  icon      String?
+  badge     String?
+  color     String?
+  group     PortalGroup @default(UNIVERSITY)
+  isEnabled Boolean     @default(true)
+  sortOrder Int         @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  units     PortalUnit[]
+  subjects  Subject[]
+  years     PortalYear[]
+  exams     Exam[]
+  questions Question[]
+
+  planScopes    PlanScope[]
+
+  @@index([group])
+  @@index([isEnabled])
+  @@index([sortOrder])
+}
+
+model PortalYear {
+  id              String      @id @default(uuid())
+  portalId        String
+  portal          Portal      @relation(fields: [portalId], references: [id], onDelete: Cascade)
+  unitId          String?
+  unit            PortalUnit? @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  unitScope       String      @default("")
+  year            Int
+  durationMinutes Int         @default(60)
+  totalMarks      Int         @default(100)
+  isPublished     Boolean     @default(true)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@unique([portalId, year, unitScope])
+  @@index([portalId])
+  @@index([unitId])
+}
+
+// --------------------------------------------------------
+// A portal's admission units: DU's ক/খ/গ/ঘ, JU's A-E, RU's
+// A-C, CU's A-D. A unit owns its own questions, papers and
+// syllabus, so ক unit content never appears under ঘ unit.
+// --------------------------------------------------------
+
+model PortalUnit {
+  id        String   @id @default(uuid())
+  portalId  String
+  portal    Portal   @relation(fields: [portalId], references: [id], onDelete: Cascade)
+  key       String
+  titleEn   String
+  titleBn   String
+  badge     String?
+  isEnabled Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  questions Question[]
+  exams     Exam[]
+  subjects  Subject[]
+  years     PortalYear[]
+
+  planScopes  PlanScope[]
+
+  @@unique([portalId, key])
+  @@index([portalId])
+  @@index([isEnabled])
+}
+
+/// Help content shown on the app's profile screen. Previously four Bangla
+/// questions hardcoded into the mobile app, so answering a new one meant
+/// shipping a release.
+model Faq {
+  id         String   @id @default(uuid())
+  questionBn String
+  questionEn String?
+  answerBn   String
+  answerEn   String?
+  category   String?
+  sortOrder  Int      @default(0)
+  isPublished Boolean @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([isPublished, sortOrder])
+}

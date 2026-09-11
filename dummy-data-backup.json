@@ -1,0 +1,518 @@
+{
+  "takenAt": "2026-09-02T17:10:40.058Z",
+  "demoUsers": [
+    {
+      "id": "8749e983-cb8f-4e74-8a53-d11c68a96382",
+      "email": "student@exambondhubd.com",
+      "supabaseId": null,
+      "password": null,
+      "name": "Rahim Uddin",
+      "avatarUrl": null,
+      "phone": null,
+      "fcmToken": null,
+      "role": "USER",
+      "status": "ACTIVE",
+      "createdAt": "2026-09-02T12:03:53.169Z",
+      "updatedAt": "2026-09-02T12:03:53.169Z",
+      "profile": {
+        "id": "4cb567bc-0614-436d-917c-68bd85f3b0aa",
+        "userId": "8749e983-cb8f-4e74-8a53-d11c68a96382",
+        "studyStreak": 7,
+        "lastActiveDate": null,
+        "totalExams": 12,
+        "completedExams": 10,
+        "questionsSolved": 480,
+        "correctAnswers": 390,
+        "wrongAnswers": 90,
+        "accuracy": 81.25,
+        "averageScore": 72,
+        "bestScore": 88,
+        "createdAt": "2026-09-02T12:03:53.169Z",
+        "updatedAt": "2026-09-02T12:03:53.169Z"
+      }
+    }
+  ],
+  "profiles": [
+    {
+      "id": "0360e063-4a46-42dd-abe7-718614a56381",
+      "userId": "af8afc5c-7e32-4074-a84c-d557e6002ec1",
+      "studyStreak": 15,
+      "lastActiveDate": null,
+      "totalExams": 42,
+      "completedExams": 38,
+      "questionsSolved": 1450,
+      "correctAnswers": 1220,
+      "wrongAnswers": 230,
+      "accuracy": 84.14,
+      "averageScore": 78.5,
+      "bestScore": 94,
+      "createdAt": "2026-09-02T12:03:52.618Z",
+      "updatedAt": "2026-09-02T12:03:52.618Z",
+      "user": {
+        "email": "admin@exambondhubd.com"
+      }
+    },
+    {
+      "id": "4cb567bc-0614-436d-917c-68bd85f3b0aa",
+      "userId": "8749e983-cb8f-4e74-8a53-d11c68a96382",
+      "studyStreak": 7,
+      "lastActiveDate": null,
+      "totalExams": 12,
+      "completedExams": 10,
+      "questionsSolved": 480,
+      "correctAnswers": 390,
+      "wrongAnswers": 90,
+      "accuracy": 81.25,
+      "averageScore": 72,
+      "bestScore": 88,
+      "createdAt": "2026-09-02T12:03:53.169Z",
+      "updatedAt": "2026-09-02T12:03:53.169Z",
+      "user": {
+        "email": "student@exambondhubd.com"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "065479d8-2902-45a3-97ef-25d895a247b6",
+      "subjectId": "7340b38a-d7a6-4d6a-86de-8df3c7e74347",
+      "titleEn": "Cell Biology & Genetics",
+      "titleBn": "কোষ ও বংশগতিবিদ্যা",
+      "createdAt": "2026-09-02T12:04:03.011Z",
+      "updatedAt": "2026-09-02T12:04:03.011Z"
+    },
+    {
+      "id": "db730f5b-c5cf-4ae4-ad3d-e65f73ce4cf6",
+      "subjectId": "7340b38a-d7a6-4d6a-86de-8df3c7e74347",
+      "titleEn": "Human Anatomy & Organ Systems",
+      "titleBn": "মানব শারীরস্থান ও অঙ্গতন্ত্র",
+      "createdAt": "2026-09-02T12:04:03.249Z",
+      "updatedAt": "2026-09-02T12:04:03.249Z"
+    },
+    {
+      "id": "a6f10539-c57f-4609-b1ed-aa0c294fc668",
+      "subjectId": "7340b38a-d7a6-4d6a-86de-8df3c7e74347",
+      "titleEn": "Plant Physiology & Diversity",
+      "titleBn": "উদ্ভিদ শারীরতত্ত্ব ও বৈচিত্র্য",
+      "createdAt": "2026-09-02T12:04:03.487Z",
+      "updatedAt": "2026-09-02T12:04:03.487Z"
+    },
+    {
+      "id": "d1f978c4-c718-41f6-8475-72d84b6d00db",
+      "subjectId": "48c4ed01-6adc-4e44-ad7d-4f6302178687",
+      "titleEn": "Bangla Grammar & Syntax",
+      "titleBn": "বাংলা ব্যাকরণ ও বাক্যতত্ত্ব",
+      "createdAt": "2026-09-02T14:02:30.430Z",
+      "updatedAt": "2026-09-02T14:02:30.430Z"
+    },
+    {
+      "id": "dcfc5dc7-6111-4eaf-954a-735569c99a13",
+      "subjectId": "48c4ed01-6adc-4e44-ad7d-4f6302178687",
+      "titleEn": "Ancient & Medieval Literature",
+      "titleBn": "প্রাচীন ও মধ্যযুগীয় সাহিত্য",
+      "createdAt": "2026-09-02T14:02:30.666Z",
+      "updatedAt": "2026-09-02T14:02:30.666Z"
+    },
+    {
+      "id": "15398b40-bf34-4667-bbdb-a74da560ca93",
+      "subjectId": "48c4ed01-6adc-4e44-ad7d-4f6302178687",
+      "titleEn": "Modern Bangla Literature",
+      "titleBn": "আধুনিক বাংলা সাহিত্য",
+      "createdAt": "2026-09-02T14:02:30.901Z",
+      "updatedAt": "2026-09-02T14:02:30.901Z"
+    },
+    {
+      "id": "d0d85659-05d5-4da6-a3c5-996d8e3dbdf0",
+      "subjectId": "48c4ed01-6adc-4e44-ad7d-4f6302178687",
+      "titleEn": "Idioms, Synonyms & Antonyms",
+      "titleBn": "বাগধারা, সমার্থক ও বিপরীতার্থক শব্দ",
+      "createdAt": "2026-09-02T14:02:31.133Z",
+      "updatedAt": "2026-09-02T14:02:31.133Z"
+    },
+    {
+      "id": "947a1181-6ca4-4911-abb5-741b9fa372f7",
+      "subjectId": "75a87102-79ee-43ff-8ef9-9f6cd5bd3ff0",
+      "titleEn": "Parts of Speech & Grammar",
+      "titleBn": "পার্টস অফ স্পিচ ও গ্রামার",
+      "createdAt": "2026-09-02T14:02:31.605Z",
+      "updatedAt": "2026-09-02T14:02:31.605Z"
+    },
+    {
+      "id": "0d4133a5-1610-4c70-a65c-25f3b9b8d075",
+      "subjectId": "75a87102-79ee-43ff-8ef9-9f6cd5bd3ff0",
+      "titleEn": "Vocabulary, Synonyms & Antonyms",
+      "titleBn": "শব্দভাণ্ডার, সমার্থক ও বিপরীত",
+      "createdAt": "2026-09-02T14:02:31.838Z",
+      "updatedAt": "2026-09-02T14:02:31.838Z"
+    },
+    {
+      "id": "d05cfa76-e748-4e01-81ca-6971baf2d4fb",
+      "subjectId": "75a87102-79ee-43ff-8ef9-9f6cd5bd3ff0",
+      "titleEn": "Idioms, Phrases & Prepositions",
+      "titleBn": "বাগধারা ও প্রিপজিশন",
+      "createdAt": "2026-09-02T14:02:32.070Z",
+      "updatedAt": "2026-09-02T14:02:32.070Z"
+    },
+    {
+      "id": "b72c5b84-1875-4b6a-8d68-dc0ee8d71f73",
+      "subjectId": "48c4ed01-6adc-4e44-ad7d-4f6302178687",
+      "titleEn": "Bangla Grammar & Syntax",
+      "titleBn": "বাংলা ব্যাকরণ ও বাক্যতত্ত্ব",
+      "createdAt": "2026-09-02T12:03:55.128Z",
+      "updatedAt": "2026-09-02T16:50:28.261Z"
+    },
+    {
+      "id": "a59d1c35-6406-4deb-aba2-33db3b04fbba",
+      "subjectId": "48c4ed01-6adc-4e44-ad7d-4f6302178687",
+      "titleEn": "Ancient & Medieval Literature",
+      "titleBn": "প্রাচীন ও মধ্যযুগীয় সাহিত্য",
+      "createdAt": "2026-09-02T12:03:55.369Z",
+      "updatedAt": "2026-09-02T16:50:28.836Z"
+    },
+    {
+      "id": "2b70f7aa-6d0d-430f-9b81-0d10912a8bf0",
+      "subjectId": "48c4ed01-6adc-4e44-ad7d-4f6302178687",
+      "titleEn": "Modern Bangla Literature",
+      "titleBn": "আধুনিক বাংলা সাহিত্য",
+      "createdAt": "2026-09-02T12:03:55.610Z",
+      "updatedAt": "2026-09-02T16:50:29.347Z"
+    },
+    {
+      "id": "d6e2743b-a666-4b4b-a167-71b7f20d18eb",
+      "subjectId": "48c4ed01-6adc-4e44-ad7d-4f6302178687",
+      "titleEn": "Idioms, Synonyms & Antonyms",
+      "titleBn": "বাগধারা, সমার্থক ও বিপরীতার্থক শব্দ",
+      "createdAt": "2026-09-02T12:03:55.850Z",
+      "updatedAt": "2026-09-02T16:50:30.181Z"
+    },
+    {
+      "id": "f67c67c4-6f30-41d2-b4a6-ca5ea698cbb1",
+      "subjectId": "75a87102-79ee-43ff-8ef9-9f6cd5bd3ff0",
+      "titleEn": "Parts of Speech & Grammar",
+      "titleBn": "পার্টস অফ স্পিচ ও গ্রামার",
+      "createdAt": "2026-09-02T12:03:56.328Z",
+      "updatedAt": "2026-09-02T16:50:31.559Z"
+    },
+    {
+      "id": "bf181be1-4592-4ca0-b03e-307d92de915c",
+      "subjectId": "75a87102-79ee-43ff-8ef9-9f6cd5bd3ff0",
+      "titleEn": "Vocabulary, Synonyms & Antonyms",
+      "titleBn": "শব্দভাণ্ডার, সমার্থক ও বিপরীত",
+      "createdAt": "2026-09-02T12:03:56.570Z",
+      "updatedAt": "2026-09-02T16:50:32.324Z"
+    },
+    {
+      "id": "a45b79ce-85af-4dbe-9eeb-1727d5a0a569",
+      "subjectId": "75a87102-79ee-43ff-8ef9-9f6cd5bd3ff0",
+      "titleEn": "Idioms, Phrases & Prepositions",
+      "titleBn": "বাগধারা ও প্রিপজিশন",
+      "createdAt": "2026-09-02T12:03:56.810Z",
+      "updatedAt": "2026-09-02T16:50:33.190Z"
+    },
+    {
+      "id": "ed5645e7-a911-478b-a724-53b570dd1716",
+      "subjectId": "75a87102-79ee-43ff-8ef9-9f6cd5bd3ff0",
+      "titleEn": "English Literary Periods & Authors",
+      "titleBn": "ইংরেজি সাহিত্যের যুগ ও সাহিত্যিক",
+      "createdAt": "2026-09-02T12:03:57.050Z",
+      "updatedAt": "2026-09-02T16:50:33.699Z"
+    },
+    {
+      "id": "e51e1075-c9ca-462f-a834-da7b77a080b0",
+      "subjectId": "3cc4586f-29da-4b1a-bf5e-59453029d7b1",
+      "titleEn": "Global Geopolitics & Treaties",
+      "titleBn": "বৈশ্বিক ভূ-রাজনীতি ও চুক্তি",
+      "createdAt": "2026-09-02T12:03:58.725Z",
+      "updatedAt": "2026-09-02T16:50:39.385Z"
+    },
+    {
+      "id": "11cacf67-8830-4d56-b4e9-8addf9405fa8",
+      "subjectId": "3cc4586f-29da-4b1a-bf5e-59453029d7b1",
+      "titleEn": "International Organizations (UN, WB, IMF)",
+      "titleBn": "আন্তর্জাতিক সংস্থা (জাতিসংঘ, বিশ্বব্যাংক)",
+      "createdAt": "2026-09-02T12:03:58.966Z",
+      "updatedAt": "2026-09-02T16:50:40.411Z"
+    },
+    {
+      "id": "efcb7017-39bc-4116-bf17-c49243c09248",
+      "subjectId": "3cc4586f-29da-4b1a-bf5e-59453029d7b1",
+      "titleEn": "Environmental Summits & Global Economy",
+      "titleBn": "পরিবেশ সম্মেলন ও বিশ্ব অর্থনীতি",
+      "createdAt": "2026-09-02T12:03:59.244Z",
+      "updatedAt": "2026-09-02T16:50:41.228Z"
+    },
+    {
+      "id": "d494f00c-ccf1-4cad-abb7-7d20889f554b",
+      "subjectId": "75a87102-79ee-43ff-8ef9-9f6cd5bd3ff0",
+      "titleEn": "English Literary Periods & Authors",
+      "titleBn": "ইংরেজি সাহিত্যের যুগ ও সাহিত্যিক",
+      "createdAt": "2026-09-02T14:02:32.304Z",
+      "updatedAt": "2026-09-02T14:02:32.304Z"
+    },
+    {
+      "id": "d698f04d-1c51-4fc8-a625-d82873ec8aae",
+      "subjectId": "3cc4586f-29da-4b1a-bf5e-59453029d7b1",
+      "titleEn": "Global Geopolitics & Treaties",
+      "titleBn": "বৈশ্বিক ভূ-রাজনীতি ও চুক্তি",
+      "createdAt": "2026-09-02T14:02:33.947Z",
+      "updatedAt": "2026-09-02T14:02:33.947Z"
+    },
+    {
+      "id": "349a303c-3c22-4a27-b8cf-990143353002",
+      "subjectId": "3cc4586f-29da-4b1a-bf5e-59453029d7b1",
+      "titleEn": "International Organizations (UN, WB, IMF)",
+      "titleBn": "আন্তর্জাতিক সংস্থা (জাতিসংঘ, বিশ্বব্যাংক)",
+      "createdAt": "2026-09-02T14:02:34.178Z",
+      "updatedAt": "2026-09-02T14:02:34.178Z"
+    },
+    {
+      "id": "8677d63b-6ab4-468e-bb7f-b224b1b528a4",
+      "subjectId": "3cc4586f-29da-4b1a-bf5e-59453029d7b1",
+      "titleEn": "Environmental Summits & Global Economy",
+      "titleBn": "পরিবেশ সম্মেলন ও বিশ্ব অর্থনীতি",
+      "createdAt": "2026-09-02T14:02:34.412Z",
+      "updatedAt": "2026-09-02T14:02:34.412Z"
+    },
+    {
+      "id": "10213a06-09c1-4671-8068-b29d0dd5f474",
+      "subjectId": "7340b38a-d7a6-4d6a-86de-8df3c7e74347",
+      "titleEn": "Cell Biology & Genetics (কোষ ও বংশগতি)",
+      "titleBn": "কোষ ও বংশগতিবিদ্যা",
+      "createdAt": "2026-09-02T14:02:37.950Z",
+      "updatedAt": "2026-09-02T16:50:50.133Z"
+    },
+    {
+      "id": "ce62d4da-5158-4d70-a8e8-444fcbec74a5",
+      "subjectId": "7340b38a-d7a6-4d6a-86de-8df3c7e74347",
+      "titleEn": "Human Physiology (মানব শারীরতত্ত্ব)",
+      "titleBn": "মানব শারীরস্থান ও অঙ্গতন্ত্র",
+      "createdAt": "2026-09-02T14:02:38.186Z",
+      "updatedAt": "2026-09-02T16:50:50.895Z"
+    },
+    {
+      "id": "28848b03-6859-4b55-b09e-e0cbaac749bc",
+      "subjectId": "7340b38a-d7a6-4d6a-86de-8df3c7e74347",
+      "titleEn": "Plant Diversity & Reproduction (উদ্ভিদ শারীরতত্ত্ব)",
+      "titleBn": "উদ্ভিদ শারীরতত্ত্ব ও প্রজনন",
+      "createdAt": "2026-09-02T14:02:38.417Z",
+      "updatedAt": "2026-09-02T16:50:51.919Z"
+    },
+    {
+      "id": "7f4b48dd-83d6-4f40-93ec-fac29cab37d3",
+      "subjectId": "7340b38a-d7a6-4d6a-86de-8df3c7e74347",
+      "titleEn": "Genetics & Biotechnology (জিনতত্ত্ব ও জীবপ্রযুক্তি)",
+      "titleBn": "জিনতত্ত্ব ও জীবপ্রযুক্তি",
+      "createdAt": "2026-09-02T14:02:38.651Z",
+      "updatedAt": "2026-09-02T16:50:52.429Z"
+    },
+    {
+      "id": "dbf72e1e-d348-4684-8600-2b294a3be914",
+      "subjectId": "23f38a7f-7a8a-4725-ba80-560338f0912a",
+      "titleEn": "Organic Chemistry (জৈব রসায়ন)",
+      "titleBn": "জৈব রসায়ন",
+      "createdAt": "2026-09-02T14:02:39.122Z",
+      "updatedAt": "2026-09-02T16:50:53.198Z"
+    },
+    {
+      "id": "1fd9b18f-d416-4f28-ab97-820bca017925",
+      "subjectId": "23f38a7f-7a8a-4725-ba80-560338f0912a",
+      "titleEn": "Periodic Table & Chemical Bonds (পর্যায় সারণি ও বন্ধন)",
+      "titleBn": "পর্যায় সারণি ও রাসায়নিক বন্ধন",
+      "createdAt": "2026-09-02T14:02:39.355Z",
+      "updatedAt": "2026-09-02T16:50:53.702Z"
+    },
+    {
+      "id": "24da898f-bbad-4a34-ba6c-9b94ef3e96ce",
+      "subjectId": "23f38a7f-7a8a-4725-ba80-560338f0912a",
+      "titleEn": "Qualitative & Quantitative Chemistry (গুণগত ও পরিমাণগত রসায়ন)",
+      "titleBn": "গুণগত ও পরিমাণগত রসায়ন",
+      "createdAt": "2026-09-02T14:02:39.591Z",
+      "updatedAt": "2026-09-02T16:50:54.726Z"
+    },
+    {
+      "id": "096c9370-c011-4e2f-8a75-d68dbf8b61ce",
+      "subjectId": "23f38a7f-7a8a-4725-ba80-560338f0912a",
+      "titleEn": "Electrochemistry & Reaction Rate (তড়িৎ রসায়ন ও বিক্রিয়ার হার)",
+      "titleBn": "তড়িৎ রসায়ন",
+      "createdAt": "2026-09-02T14:02:39.828Z",
+      "updatedAt": "2026-09-02T16:50:55.238Z"
+    },
+    {
+      "id": "5c596625-d35e-4aec-bce6-1cc00931413f",
+      "subjectId": "85140fb1-ee41-4634-8c33-c8c87c4b7a84",
+      "titleEn": "Newtonian Mechanics & Gravity (বলবিদ্যা ও মহাকর্ষ)",
+      "titleBn": "বলবিদ্যা ও মহাকর্ষ",
+      "createdAt": "2026-09-02T14:02:40.297Z",
+      "updatedAt": "2026-09-02T16:50:56.741Z"
+    },
+    {
+      "id": "b93ca294-991d-41cf-a7db-5af1190afc8b",
+      "subjectId": "85140fb1-ee41-4634-8c33-c8c87c4b7a84",
+      "titleEn": "Thermodynamics & Waves (তাপগতিবিদ্যা ও তরঙ্গ)",
+      "titleBn": "তাপগতিবিদ্যা ও তরঙ্গ",
+      "createdAt": "2026-09-02T14:02:40.530Z",
+      "updatedAt": "2026-09-02T16:50:57.251Z"
+    },
+    {
+      "id": "17366518-5a7a-4f9b-acac-8652b4f0e98c",
+      "subjectId": "85140fb1-ee41-4634-8c33-c8c87c4b7a84",
+      "titleEn": "Electricity & Magnetism (চলতড়িৎ ও স্থিরতড়িৎ)",
+      "titleBn": "চলতড়িৎ ও স্থিরতড়িৎ",
+      "createdAt": "2026-09-02T14:02:40.762Z",
+      "updatedAt": "2026-09-02T16:50:57.765Z"
+    },
+    {
+      "id": "6fa57ce5-3441-4d87-a355-98f20d00cb25",
+      "subjectId": "85140fb1-ee41-4634-8c33-c8c87c4b7a84",
+      "titleEn": "Modern Physics & Optics (আধুনিক পদার্থবিজ্ঞান ও আলো)",
+      "titleBn": "আধুনিক পদার্থবিজ্ঞান ও আলো",
+      "createdAt": "2026-09-02T14:02:40.994Z",
+      "updatedAt": "2026-09-02T16:50:58.275Z"
+    },
+    {
+      "id": "76d47f23-79ad-40de-8f42-d69062ac477d",
+      "subjectId": "c3b3680c-448b-466d-b6e5-7ae491323f6c",
+      "titleEn": "Liberation War of Bangladesh (মুক্তিযুদ্ধ ও বঙ্গবন্ধু)",
+      "titleBn": "মুক্তিযুদ্ধ ও বঙ্গবন্ধু",
+      "createdAt": "2026-09-02T14:02:41.454Z",
+      "updatedAt": "2026-09-02T16:50:59.620Z"
+    },
+    {
+      "id": "1e4b3e47-b1e1-49e7-9626-1dd5a5a556c4",
+      "subjectId": "c3b3680c-448b-466d-b6e5-7ae491323f6c",
+      "titleEn": "Geography, Heritage & Culture (ভূগোল, ঐতিহ্য ও সংস্কৃতি)",
+      "titleBn": "ভূগোল, ঐতিহ্য ও সংস্কৃতি",
+      "createdAt": "2026-09-02T14:02:41.685Z",
+      "updatedAt": "2026-09-02T16:51:00.486Z"
+    },
+    {
+      "id": "553cca76-fc13-491e-b6f5-6bfc53599c9d",
+      "subjectId": "c0173898-4fec-448a-bf8f-44bcaeddc3e6",
+      "titleEn": "History, Liberation War & Language Movement",
+      "titleBn": "ইতিহাস, মুক্তিযুদ্ধ ও ভাষা আন্দোলন",
+      "createdAt": "2026-09-02T16:50:35.222Z",
+      "updatedAt": "2026-09-02T16:50:35.222Z"
+    },
+    {
+      "id": "b3bf1078-73fc-4636-a3f3-d949815867c3",
+      "subjectId": "c0173898-4fec-448a-bf8f-44bcaeddc3e6",
+      "titleEn": "Constitution & Governance of Bangladesh",
+      "titleBn": "বাংলাদেশের সংবিধান ও সরকার ব্যবস্থা",
+      "createdAt": "2026-09-02T16:50:36.608Z",
+      "updatedAt": "2026-09-02T16:50:36.608Z"
+    },
+    {
+      "id": "ac92c3bc-4849-4500-9089-6ce35e359a30",
+      "subjectId": "c0173898-4fec-448a-bf8f-44bcaeddc3e6",
+      "titleEn": "Economy, National Budget & Megaprojects",
+      "titleBn": "অর্থনীতি, বাজেট ও মেগাপ্রকল্প",
+      "createdAt": "2026-09-02T16:50:37.480Z",
+      "updatedAt": "2026-09-02T16:50:37.480Z"
+    },
+    {
+      "id": "406cb6e8-afe4-4c7e-bcff-609c1684a982",
+      "subjectId": "c0173898-4fec-448a-bf8f-44bcaeddc3e6",
+      "titleEn": "Geography, Demographics & Culture",
+      "titleBn": "ভৌগোলিক পরিবেশ, জনসংখ্যা ও সংস্কৃতি",
+      "createdAt": "2026-09-02T16:50:38.616Z",
+      "updatedAt": "2026-09-02T16:50:38.616Z"
+    },
+    {
+      "id": "2c8989af-4ef8-4046-950e-c2f828f5b243",
+      "subjectId": "a20efb69-aaea-4556-b34f-f85862ff703b",
+      "titleEn": "Arithmetic, Percentage & Ratio",
+      "titleBn": "পাটিগণিত, শতকরা ও অনুপাত",
+      "createdAt": "2026-09-02T16:50:42.508Z",
+      "updatedAt": "2026-09-02T16:50:42.508Z"
+    },
+    {
+      "id": "3bd967d7-4aa6-4d5f-90a3-01a2d95de1ba",
+      "subjectId": "a20efb69-aaea-4556-b34f-f85862ff703b",
+      "titleEn": "Algebra, Equations & Sequences",
+      "titleBn": "বীজগণিত, সমীকরণ ও ধারা",
+      "createdAt": "2026-09-02T16:50:43.020Z",
+      "updatedAt": "2026-09-02T16:50:43.020Z"
+    },
+    {
+      "id": "4da9f023-db61-46c7-a3dc-c8edb0436937",
+      "subjectId": "a20efb69-aaea-4556-b34f-f85862ff703b",
+      "titleEn": "Geometry & Trigonometry",
+      "titleBn": "জ্যামিতি ও ত্রিকোণমিতি",
+      "createdAt": "2026-09-02T16:50:43.783Z",
+      "updatedAt": "2026-09-02T16:50:43.783Z"
+    },
+    {
+      "id": "da249d11-cbc7-4fd3-9328-7f7a3c511a1f",
+      "subjectId": "a20efb69-aaea-4556-b34f-f85862ff703b",
+      "titleEn": "Analytical Reasoning & Spatial Ability",
+      "titleBn": "বিশ্লেষণাত্মক যুক্তি ও মানসিক দক্ষতা",
+      "createdAt": "2026-09-02T16:50:44.944Z",
+      "updatedAt": "2026-09-02T16:50:44.944Z"
+    },
+    {
+      "id": "e0a3be6b-9535-4362-a8ef-d0ba085357cc",
+      "subjectId": "c81cccbf-2bf6-4498-8c86-d2dbe496093f",
+      "titleEn": "Physics in Everyday Life",
+      "titleBn": "দৈনন্দিন জীবনে পদার্থবিজ্ঞান",
+      "createdAt": "2026-09-02T16:50:45.974Z",
+      "updatedAt": "2026-09-02T16:50:45.974Z"
+    },
+    {
+      "id": "caad089b-b8e2-42af-906d-66664c3f24ca",
+      "subjectId": "c81cccbf-2bf6-4498-8c86-d2dbe496093f",
+      "titleEn": "Human Physiology & Nutrition",
+      "titleBn": "মানব শারীরবিদ্যা ও পুষ্টি",
+      "createdAt": "2026-09-02T16:50:46.489Z",
+      "updatedAt": "2026-09-02T16:50:46.489Z"
+    },
+    {
+      "id": "873c9f2f-96f6-42d2-b8d4-9835a2a9f66a",
+      "subjectId": "c81cccbf-2bf6-4498-8c86-d2dbe496093f",
+      "titleEn": "Atmosphere, Ecology & Diseases",
+      "titleBn": "বায়ুমণ্ডল, পরিবেশ ও রোগব্যাধি",
+      "createdAt": "2026-09-02T16:50:47.257Z",
+      "updatedAt": "2026-09-02T16:50:47.257Z"
+    },
+    {
+      "id": "8c6fb321-2fb3-4b17-aafc-9d607dcfddec",
+      "subjectId": "827d7ce9-ad7d-46cc-9529-7a9c651fd22c",
+      "titleEn": "Computer Hardware, OS & Memory",
+      "titleBn": "কম্পিউটার হার্ডওয়্যার, ওএস ও মেমোরি",
+      "createdAt": "2026-09-02T16:50:48.027Z",
+      "updatedAt": "2026-09-02T16:50:48.027Z"
+    },
+    {
+      "id": "2687a29a-e7d5-47e6-9592-89ae7af1902c",
+      "subjectId": "827d7ce9-ad7d-46cc-9529-7a9c651fd22c",
+      "titleEn": "Internet, Networking & Cyber Security",
+      "titleBn": "ইন্টারনেট, নেটওয়ার্কিং ও সাইবার নিরাপত্তা",
+      "createdAt": "2026-09-02T16:50:48.535Z",
+      "updatedAt": "2026-09-02T16:50:48.535Z"
+    },
+    {
+      "id": "0ce09de8-d86b-4119-bc67-ab56f9f5a152",
+      "subjectId": "827d7ce9-ad7d-46cc-9529-7a9c651fd22c",
+      "titleEn": "Database, Number System & Software",
+      "titleBn": "ডাটাবেজ, সংখ্যা পদ্ধতি ও সফটওয়্যার",
+      "createdAt": "2026-09-02T16:50:49.110Z",
+      "updatedAt": "2026-09-02T16:50:49.110Z"
+    },
+    {
+      "id": "36454e73-fc85-4131-b9c3-4a0acd4f642c",
+      "subjectId": "c3b3680c-448b-466d-b6e5-7ae491323f6c",
+      "titleEn": "Recent National & Global Affairs (সাম্প্রতিক তথ্য)",
+      "titleBn": "সাম্প্রতিক তথ্য",
+      "createdAt": "2026-09-02T14:02:41.919Z",
+      "updatedAt": "2026-09-02T16:51:01.252Z"
+    }
+  ],
+  "systemSettings": [
+    {
+      "id": "1afed83c-620a-4806-b1d3-f850ad544884",
+      "key": "app_exam_portals",
+      "value": "{\"university\":[{\"key\":\"Medical & Dental\",\"title\":\"Medical & Dental\",\"bn\":\"মেডিকেল ও ডেন্টাল\",\"icon\":\"🩺\",\"badge\":\"MBBS/BDS\",\"color\":\"bg-rose-50 border-rose-200 text-rose-800\",\"isEnabled\":true},{\"key\":\"DU\",\"title\":\"DU\",\"bn\":\"ঢাকা বিশ্ববিদ্যালয়\",\"icon\":\"🏛️\",\"badge\":\"ক, খ, গ, ঘ ইউনিট\",\"color\":\"bg-blue-50 border-blue-200 text-blue-800\",\"isEnabled\":true},{\"key\":\"GST\",\"title\":\"GST\",\"bn\":\"জিএসটি গুচ্ছ ভর্তি\",\"icon\":\"🧪\",\"badge\":\"২৪ বিশ্ববিদ্যালয়\",\"color\":\"bg-emerald-50 border-emerald-200 text-emerald-800\",\"isEnabled\":true},{\"key\":\"JU\",\"title\":\"JU\",\"bn\":\"জাহাঙ্গীরনগর\",\"icon\":\"🌲\",\"badge\":\"A, B, C, D, E\",\"color\":\"bg-amber-50 border-amber-200 text-amber-800\",\"isEnabled\":true},{\"key\":\"RU\",\"title\":\"RU\",\"bn\":\"রাজশাহী বিশ্ববিদ্যালয়\",\"icon\":\"🌴\",\"badge\":\"A, B, C ইউনিট\",\"color\":\"bg-cyan-50 border-cyan-200 text-cyan-800\",\"isEnabled\":true},{\"key\":\"CU\",\"title\":\"CU\",\"bn\":\"চট্টগ্রাম বিশ্ববিদ্যালয়\",\"icon\":\"🌊\",\"badge\":\"A, B, C, D ইউনিট\",\"color\":\"bg-indigo-50 border-indigo-200 text-indigo-800\",\"isEnabled\":true},{\"key\":\"Agriculture\",\"title\":\"Agriculture\",\"bn\":\"কৃষি গুচ্ছ ভর্তি\",\"icon\":\"🌾\",\"badge\":\"৯ কৃষি বিশ্ববিদ্যালয়\",\"color\":\"bg-lime-50 border-lime-200 text-lime-800\",\"isEnabled\":true},{\"key\":\"CKRUET\",\"title\":\"CKRUET\",\"bn\":\"ইঞ্জিনিয়ারিং গুচ্ছ\",\"icon\":\"🔬\",\"badge\":\"CUET, KUET, RUET\",\"color\":\"bg-teal-50 border-teal-200 text-teal-800\",\"isEnabled\":true}],\"jobs\":[{\"key\":\"BCS\",\"title\":\"BCS Preliminary\",\"bn\":\"বিসিএস প্রিলিমিনারি\",\"icon\":\"🎖️\",\"badge\":\"46th & 47th BCS\",\"color\":\"bg-emerald-50 border-emerald-200 text-emerald-800\",\"isEnabled\":true},{\"key\":\"NTRCA\",\"title\":\"NTRCA\",\"bn\":\"শিক্ষক নিবন্ধন\",\"icon\":\"👨‍🏫\",\"badge\":\"১৮তম ও ১৯তম শিক্ষক\",\"color\":\"bg-blue-50 border-blue-200 text-blue-800\",\"isEnabled\":true},{\"key\":\"Primary\",\"title\":\"Primary Teacher\",\"bn\":\"প্রাথমিক সহকারী শিক্ষক\",\"icon\":\"🏫\",\"badge\":\"সহকারী শিক্ষক নিয়োগ\",\"color\":\"bg-amber-50 border-amber-200 text-amber-800\",\"isEnabled\":true},{\"key\":\"Bank\",\"title\":\"Bank Recruitment\",\"bn\":\"ব্যাংক জবস\",\"icon\":\"🏦\",\"badge\":\"Senior Officer / Cash\",\"color\":\"bg-violet-50 border-violet-200 text-violet-800\",\"isEnabled\":true},{\"key\":\"Govt\",\"title\":\"Govt Jobs (10-20th)\",\"bn\":\"অন্যান্য সরকারি চাকরি\",\"icon\":\"📑\",\"badge\":\"মন্ত্রণালয় ও অধিদপ্তর\",\"color\":\"bg-slate-100 border-slate-200 text-slate-800\",\"isEnabled\":true}]}",
+      "createdAt": "2026-09-02T16:28:08.199Z",
+      "updatedAt": "2026-09-02T16:29:46.676Z"
+    }
+  ]
+}
