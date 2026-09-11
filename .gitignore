@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Output & Build
+dist/
+coverage/
+
+# Environment Variables
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.pem
+
+# IDE & Editor
+.idea/
+*.swp
+*.swo
+config.bat

@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: exambondhubd_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: exambondhubd
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Redis Cache & Queue
+  redis:
+    image: redis:7-alpine
+    container_name: exambondhubd_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+  # 3. NestJS Fastify Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: exambondhubd_backend
+    restart: always
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: "postgresql://postgres:postgrespassword@postgres:5432/exambondhubd?schema=public"
+      DIRECT_URL: "postgresql://postgres:postgrespassword@postgres:5432/exambondhubd?schema=public"
+      REDIS_URL: "redis://redis:6379"
+      JWT_SECRET: "9f8b4e2d7c1a5f6e3b0d8c2e4a7f9b1d5e3c7a9f2b4d6e8a0c1f3e5d7b9a2c4e"
+      JWT_EXPIRES_IN: "7d"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  # 4. Next.js Admin Dashboard
+  dashboard:
+    build:
+      context: ../dashboard
+      dockerfile: Dockerfile
+    container_name: exambondhubd_dashboard
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: "http://localhost:4000/api/v1"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+  redisdata:

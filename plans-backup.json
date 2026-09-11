@@ -1,0 +1,63 @@
+[
+  {
+    "id": "f6b96b37-5b89-43ac-94e3-2886c13c7d04",
+    "code": "FREE",
+    "nameEn": "Starter Free",
+    "nameBn": "ফ্রি প্ল্যান",
+    "descriptionEn": "Basic access to sample questions & 2 mock exams",
+    "descriptionBn": "সীমিত মডেল টেস্ট ও প্রশ্ন অনুশীলনের সুবিধা",
+    "durationDays": 3650,
+    "priceBdt": 0,
+    "discountPriceBdt": null,
+    "features": [
+      "2 Full Mock Tests",
+      "Daily 10 Practice Questions",
+      "Standard Solution View"
+    ],
+    "isActive": true,
+    "createdAt": "2026-09-02T12:04:03.729Z",
+    "updatedAt": "2026-09-02T19:14:18.924Z"
+  },
+  {
+    "id": "5e5ba26d-48da-448a-87e7-3468199a90fe",
+    "code": "MONTHLY",
+    "nameEn": "Pro Monthly",
+    "nameBn": "প্রো মাসিক",
+    "descriptionEn": "Unlimited mock exams, full previous year archive & detailed analytics",
+    "descriptionBn": "আনলিমিটেড মডেল টেস্ট, বিগত বছরের প্রশ্ন ব্যাংক ও পূর্ণাঙ্গ বিশ্লেষণ",
+    "durationDays": 30,
+    "priceBdt": 299,
+    "discountPriceBdt": 199,
+    "features": [
+      "Unlimited Mock Exams",
+      "All Bangladesh Job & Admission Blueprints",
+      "Practice My Mistakes & Bookmark Mode",
+      "Subject-wise Analytics & Study Streak",
+      "Detailed Explanations & Notes"
+    ],
+    "isActive": true,
+    "createdAt": "2026-09-02T12:04:03.968Z",
+    "updatedAt": "2026-09-02T21:01:59.857Z"
+  },
+  {
+    "id": "70c52ced-2a5a-4ba3-a211-9d53b44e1146",
+    "code": "YEARLY",
+    "nameEn": "Ultimate Yearly",
+    "nameBn": "আলটিমেট বার্ষিক",
+    "descriptionEn": "Full 1-year unlimited access with all question archives & upcoming mock tests",
+    "descriptionBn": "সম্পূর্ণ ১ বছরের আনলিমিটেড এক্সেস ও সকল পরীক্ষার পূর্ণ প্রস্তুতি",
+    "durationDays": 365,
+    "priceBdt": 1999,
+    "discountPriceBdt": 1199,
+    "features": [
+      "All Monthly Pro Features",
+      "1 Full Year Unlimited Access",
+      "All Past BCS & Admission Papers",
+      "Priority Question Reports & Review",
+      "Leaderboards & PDF Performance Export"
+    ],
+    "isActive": true,
+    "createdAt": "2026-09-02T12:04:04.205Z",
+    "updatedAt": "2026-09-02T19:14:19.406Z"
+  }
+]
